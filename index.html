@@ -1,154 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Prank Book</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap');body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #2f1e0f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'UnifrakturCook', cursive;
+}
 
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: #3b2c1e;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'UnifrakturCook', cursive;
-      user-select: none;
-    }
+.book-container {
+  position: relative;
+  width: 360px;
+  height: 480px;
+  background: url('https://upload.wikimedia.org/wikipedia/commons/9/91/Leather_texture_dark_brown.jpg');
+  background-size: cover;
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  transition: transform 1.2s ease;
+}
 
-    .book-container {
-      perspective: 1500px;
-      width: 320px;
-      height: 420px;
-    }
+.book-container.opened {
+  background: url('https://upload.wikimedia.org/wikipedia/commons/6/6d/Old_paper_texture.jpg');
+  background-size: cover;
+  transform: rotateY(-2deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
 
-    .book-cover {
-      width: 320px;
-      height: 420px;
-      background: url('https://upload.wikimedia.org/wikipedia/commons/9/91/Leather_texture_dark_brown.jpg');
-      background-size: cover;
-      border-radius: 20px;
-      box-shadow: inset 0 0 15px 6px #2b1a0f, 0 15px 30px rgba(0,0,0,0.8);
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
+.book-text {
+  color: white;
+  font-size: 24px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
 
-    .cover-text {
-      position: absolute;
-      bottom: 40px;
-      width: 100%;
-      text-align: center;
-      font-size: 30px;
-      color: #f8ecd3;
-      text-shadow: 1px 1px 3px #000;
-      letter-spacing: 3px;
-    }
+.book-container.opened .book-text {
+  opacity: 1;
+}
 
-    .book-flip {
-      width: 320px;
-      height: 420px;
-      position: relative;
-      transform-style: preserve-3d;
-      cursor: default;
-    }
+.next-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: 2px solid white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.3s ease;
+}
 
-    .book-flip .cover-front {
-      position: absolute;
-      width: 320px;
-      height: 420px;
-      background: url('https://upload.wikimedia.org/wikipedia/commons/9/91/Leather_texture_dark_brown.jpg');
-      background-size: cover;
-      border-radius: 20px;
-      box-shadow: inset 0 0 15px 6px #2b1a0f, 0 15px 30px rgba(0,0,0,0.8);
-      backface-visibility: hidden;
-      transform-origin: left center;
-      z-index: 2;
-      transition: box-shadow 0.3s ease;
-    }
+.next-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
 
-    .book-flip .page-back {
-      position: absolute;
-      width: 320px;
-      height: 420px;
-      background: url('https://upload.wikimedia.org/wikipedia/commons/6/6d/Old_paper_texture.jpg');
-      background-size: cover;
-      border-radius: 20px 0 0 20px;
-      box-shadow: inset 5px 0 15px rgba(0,0,0,0.15);
-      padding: 30px 20px;
-      color: #4a3213;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 24px;
-      line-height: 1.4;
-      text-align: center;
-      user-select: none;
-      z-index: 1;
-      backface-visibility: hidden;
-    }
-
-    .page-text {
-      transform: scaleX(-1);
-      transition: transform 1s ease;
-    }
-
-    .flipping {
-      animation: flipPage 1.5s forwards ease-in-out;
-    }
-
-    @keyframes flipPage {
-      0% {
-        transform: rotateY(0deg);
-      }
-      100% {
-        transform: rotateY(-180deg);
-      }
-    }
   </style>
 </head>
-<body>
+<body>  <div class="book-container" id="book">
+    <div class="book-text" id="text">I have a surprise for you, my pookie wookie dookie 💖</div>
+    <button class="next-button" id="nextBtn" style="display: none;">Click me to turn the page</button>
+  </div>  <script>
+    const book = document.getElementById('book');
+    const text = document.getElementById('text');
+    const btn = document.getElementById('nextBtn');
 
-  <div class="book-container" id="bookContainer">
-    <div class="book-cover" id="bookCover">
-      <div class="cover-text">Treasure Map</div>
-    </div>
-  </div>
-
-  <script>
-    const bookContainer = document.getElementById('bookContainer');
-    const bookCover = document.getElementById('bookCover');
-    let opened = false;
-
-    bookCover.addEventListener('click', () => {
-      if (opened) return;
-      opened = true;
-
-      bookContainer.innerHTML = `
-        <div class="book-flip" id="bookFlip">
-          <div class="cover-front" id="coverFront"></div>
-          <div class="page-back" id="pageBack">
-            <div class="page-text" id="pageText">
-              I have a surprise for you, my pookie wookie dookie 💖
-            </div>
-          </div>
-        </div>
-      `;
-
-      const coverFront = document.getElementById('coverFront');
-      const pageText = document.getElementById('pageText');
-
-      coverFront.classList.add('flipping');
-
-      coverFront.addEventListener('animationend', () => {
-        coverFront.style.visibility = 'hidden';
-        pageText.style.transform = 'scaleX(1)';
-      });
+    book.addEventListener('click', () => {
+      if (!book.classList.contains('opened')) {
+        book.classList.add('opened');
+        btn.style.display = 'inline-block';
+      }
     });
-  </script>
 
-</body>
+    btn.addEventListener('click', () => {
+      text.innerHTML = 'Fuck off bitch 😈';
+      btn.style.display = 'none';
+    });
+  </script></body>
 </html>
