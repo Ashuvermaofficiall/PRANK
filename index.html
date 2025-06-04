@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Pookie Surprise</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #ffe6f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }.book {
+  width: 300px;
+  height: 400px;
+  background-color: pink;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: transform 1s ease-in-out;
+}
+
+.book.opened {
+  transform: rotateY(180deg);
+  background-color: #fff0f5;
+}
+
+.message {
+  font-size: 20px;
+  text-align: center;
+  padding: 20px;
+  display: none;
+}
+
+.message.active {
+  display: block;
+}
+
+#flipBtn {
+  display: none;
+  margin-top: 20px;
+  background-color: #ff66b2;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.finalPage {
+  display: none;
+  background-color: black;
+  color: white;
+  font-size: 28px;
+  padding: 30px;
+  text-align: center;
+  border-radius: 15px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.finalPage.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="book" id="book">
+    <div class="message" id="message1">
+      I have a surprise for you my pookie wookie dookie 😚💖
+    </div>
+    <button id="flipBtn">Click me to turn the page</button>
+  </div>  <div class="finalPage" id="finalPage">
+    Fuck off bitch 😈
+  </div>  <script>
+    const book = document.getElementById('book');
+    const message1 = document.getElementById('message1');
+    const flipBtn = document.getElementById('flipBtn');
+    const finalPage = document.getElementById('finalPage');
+
+    book.addEventListener('click', () => {
+      book.classList.add('opened');
+      message1.classList.add('active');
+      flipBtn.style.display = 'block';
+    }, { once: true });
+
+    flipBtn.addEventListener('click', () => {
+      book.style.display = 'none';
+      finalPage.classList.add('active');
+    });
+  </script></body>
+</html>
