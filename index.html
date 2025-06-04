@@ -7,97 +7,95 @@
     @import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap');body, html {
   margin: 0;
   padding: 0;
-  height: 100%;
-  background: #1e1409;
+  height: 100vh;
+  width: 100vw;
+  background-color: #1e1409;
+  font-family: 'UnifrakturCook', cursive;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'UnifrakturCook', cursive;
+  overflow: hidden;
 }
 
-.book {
+.book-container {
   position: relative;
-  width: 800px;
-  height: 500px;
+  width: 300px;
+  height: 400px;
   perspective: 2000px;
 }
 
-.cover, .page {
+.closed-book, .open-book {
   position: absolute;
-  width: 50%;
+  width: 100%;
   height: 100%;
-  top: 0;
-  background-size: cover;
-  background-position: center;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
   transition: transform 1s ease-in-out;
-}
-
-.cover {
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/9/91/Leather_texture_dark_brown.jpg');
-  left: 0;
-  z-index: 2;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  transform-origin: right;
-}
-
-.page {
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/6/6d/Old_paper_texture.jpg');
-  left: 50%;
-  z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
-
-.page p {
-  color: white;
-  font-size: 28px;
   text-align: center;
-  padding: 0 20px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
 }
 
-.page button {
-  margin-top: 30px;
-  padding: 12px 20px;
-  font-size: 18px;
-  background: rgba(0, 0, 0, 0.6);
+.closed-book {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/9/91/Leather_texture_dark_brown.jpg');
+  z-index: 2;
+}
+
+.closed-book p, .closed-book button {
   color: white;
-  border: 2px solid white;
-  border-radius: 8px;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.closed-book button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid white;
+  border-radius: 6px;
   cursor: pointer;
 }
 
-.open .cover {
-  transform: rotateY(-180deg);
+.open-book {
+  background-image: url('bookpage.jpg');
+  z-index: 1;
+  transform: rotateY(180deg);
+  opacity: 0;
+}
+
+.open-book.opened {
+  opacity: 1;
+  transform: rotateY(0deg);
+  z-index: 3;
+}
+
+.open-book p {
+  font-size: 28px;
+  color: white;
+  padding: 0 20px;
 }
 
   </style>
 </head>
 <body>
-  <div class="book" id="book">
-    <div class="cover" id="cover"></div>
-    <div class="page" id="page">
-      <p id="text">I have a surprise for you my pookie wookie dookie 💖</p>
-      <button id="turnBtn">Click me to turn the page</button>
+  <div class="book-container">
+    <div class="closed-book" id="closedBook">
+      <p>I have a surprise for you my pookie wookie dookie 💖</p>
+      <button onclick="openBook()">Click me to turn the page</button>
+    </div>
+    <div class="open-book" id="openBook">
+      <p>Fuck off bitch 😈</p>
     </div>
   </div>  <script>
-    const book = document.getElementById('book');
-    const cover = document.getElementById('cover');
-    const text = document.getElementById('text');
-    const btn = document.getElementById('turnBtn');
-
-    cover.addEventListener('click', () => {
-      book.classList.add('open');
-    });
-
-    btn.addEventListener('click', () => {
-      text.textContent = 'Fuck off bitch 😈';
-      btn.style.display = 'none';
-    });
+    function openBook() {
+      document.getElementById('closedBook').style.display = 'none';
+      const openPage = document.getElementById('openBook');
+      openPage.classList.add('opened');
+    }
   </script></body>
 </html>
